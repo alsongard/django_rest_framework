@@ -1,11 +1,34 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 import json
+from django.forms.models import model_to_dict
+from products.models import ProductSchema
 
+# from rest_framework.decorators import api_view
+
+# working with rest_framework
 
 # Create your views here.
 def home_api(request, *args, **kwargs):
+
+    product = ProductSchema.objects.get(id=1)
+    print(f'this is product:\n ${product}')
+
     data = {}
+
+    # if product:
+    #     data["id"] = product.id,
+    #     data["title"] = product.title,
+    #     data["price"] = product.price,
+    #     data["description"] = product.description,
+    #     data["available"] = product.available,
+    #     data["remaining"] = product.remaining,
+    #     data["category"] = product.category
+
+    if product:
+        # instead of the above which is manual, we can use model_to_dict() method
+        data = model_to_dict(product, fields=["id", "title", "price"])
+        # one can also specify the fields which he/she wants
     
     print("request.body")
     print(request.body) # a byte string of json b''
@@ -19,4 +42,20 @@ def home_api(request, *args, **kwargs):
     except: 
         pass
     print(f'this is data: {data}')
-    return JsonResponse({"message":"Today is another day thankyou Lord for your mercies!"})
+    return JsonResponse({"message":"Today is another day thankyou Lord for your mercies!", "productFound":data})
+
+
+# so the JsonResponse form http takes json objects that is:
+"""
+JsonResponse({"objectProperty": "objectValue"})
+
+"""
+
+
+# to use django rest_framework_api we import the following: 
+"""
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+"""
+def product_get_view(reqeust, *args, **kwargs):
+    pass

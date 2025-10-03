@@ -21,8 +21,9 @@ class ProductSchema(models.Model):
         ("JEWELRY", "Jewelry"),
         ("OTHER", "Other"),
     ]
+    title = models.CharField(max_length=120, default="")
     price = models.DecimalField(max_digits=15, null=False, blank=False, decimal_places=2, default=Decimal("99.11"))
     description = models.TextField(null=False, blank=False)
     available = models.BooleanField(default=True)
     remaining = models.IntegerField(default=10)
-    category = models.CharField(choices=PRODUCT_CHOICES, max_length=100)
+    category = models.CharField(choices=PRODUCT_CHOICES, max_length=100, default="Electronics")
