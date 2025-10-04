@@ -3,7 +3,7 @@ from django.http import JsonResponse
 import json
 from django.forms.models import model_to_dict
 from products.models import ProductSchema
-from products.serializers import ProductSerializer,ProductHigherPurchaseSerializer
+from products.serializers import ProductDiscountSerializer,ProductHigherPurchaseSerializer, ProductCreateSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 # working with rest_framework
@@ -69,7 +69,7 @@ def product_get_view(reqeust, *args, **kwargs):
 
     # .data is a method 
     if found_product:
-        data = ProductSerializer(found_product).data
+        data = ProductDiscountSerializer(found_product).data
         return Response(data)
 
 @api_view(["GET"])
@@ -82,4 +82,31 @@ def get_with_higher_purchase(request, *args, **kwargs):
     # .data is a method 
     if found_product:
         data = ProductHigherPurchaseSerializer(found_product).data
+        return JsonResponse({"success":True, "foundData":data })
         return Response(data)
+
+
+@api_view(["POST"])
+def create_product(request, *args, **kwargs):
+    """
+        SAVE PRODUCT DATA
+    """
+    print("request.data")
+    print(request.data)
+    serializer = ProductCreateSerializer(data=request.data)
+    print('this is serializer')
+    print(serializer)
+    if serializer.is_valid(raise_exception=True):
+        serializer.save()
+        print("serializeData")
+        print(serializer.data)
+        return Response(serializer.data)
+
+    return Response({"invalid":"Not good data"}, status=400)
+
+
+"""
+{'title': 'Lamborghini Venon', 'price': 2000000, 'description': '15000 horse power and 20 litre oil tank. 0 to 120m per second', 'available': 'True', 'remaining': 10, 'category': 'Cars'}
+
+    category = ChoiceField(choices=[('ELECTRONICS', 'Electronics'), ('FASHION', 'Fashion'), ('GROCERY', 'Grocery'), ('HOME_APPLIANCES', 'Home Appliances'), ('BOOKS', 'Books'), ('TOYS', 'Toys'), ('SPORTS', 'Sports'), ('BEAUTY', 'Beauty'), ('HEALTH', 'Health'), ('AUTOMOTIVE', 'Automotive'), ('MUSIC', 'Music'), ('MOVIES', 'Movies'), ('GAMES', 'Games'), ('FURNITURE', 'Furniture'), ('JEWELRY', 'Jewelry'), ('CARS', 'Cars'), ('OTHER', 'Other')], required=False)
+"""

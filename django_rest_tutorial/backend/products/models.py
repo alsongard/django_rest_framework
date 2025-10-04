@@ -19,6 +19,7 @@ class ProductSchema(models.Model):
         ("GAMES", "Games"),
         ("FURNITURE", "Furniture"),
         ("JEWELRY", "Jewelry"),
+        ("CARS", "Cars"),
         ("OTHER", "Other"),
     ]
     title = models.CharField(max_length=120, default="")
@@ -38,3 +39,8 @@ class ProductSchema(models.Model):
         higher_purchase = (0.1*float(self.price))
         return int(higher_purchase * 12) + self.price
          
+
+
+
+
+

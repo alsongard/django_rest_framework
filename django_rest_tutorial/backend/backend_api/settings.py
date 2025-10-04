@@ -39,7 +39,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'home_api',
     'products',
+    'rest_framework',
 ]
+
+# settings.py
+LOGIN_REDIRECT_URL = '/api/'  # or whatever your API root URL is
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -70,7 +74,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'backend_api.wsgi.application'
-
+APPEND_SLASH=False
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
