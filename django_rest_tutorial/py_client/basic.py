@@ -34,9 +34,9 @@ reqeusts.get("url", json={"query":"Hello world"})
 
 another_repsonse = requests.get("https://httpbin.org/anything", data={"query":"Hello World"})
 
-# print("another_repsonse")
-# print(another_repsonse.json())
-
+print("another_repsonse")
+print(another_repsonse.json())
+# using data the Content-Type is set to form-url-encoded
 
 another_repsonse_with_json = requests.get("https://httpbin.org/anything", json={"query":"Hello World"})
 
@@ -54,4 +54,20 @@ my_response = requests.get("http://localhost:8000/api", params={"product_id": 23
 # print(my_response.json())
 print(my_response.status_code)
 
-print(my_response.json()["message"])
+print(my_response.json())\
+
+
+create_product = requests.post('http://localhost:8000/api/createProduct', json={
+    'title':"DELL  Laptop Latitude E7450",
+    "price": 80000,
+    "description": "512GB storage, 16Gb RAM",
+    "available": True,
+    "remaining": 4,
+    "category":"Electronics"
+    }
+    )
+
+print("create_product")
+print(create_product)
+
+
